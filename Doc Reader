@@ -1,0 +1,26 @@
+import csv
+import pandas as pd
+import matplotlib.pyplot as plt
+import numpy as np
+import matplotlib as mpl
+from fuzzywuzzy import fuzz
+from fuzzywuzzy import process 
+
+pd.set_option('display.max_rows', None)
+%run DocumentCleaner.ipynb
+
+
+BDATA = DocClean("BeerYear2023.csv")
+WDATA = DocClean("WineYear2023.csv")
+LDATA = DocClean("LiquorYear2023.csv")
+beer = BDATA["Product Name"].tolist()
+BDATA = pd.to_numeric(BDATA["Variance"])
+ypos = np.arange(5)
+xpos = [float(x.replace(",","")) for x in BDATA["Variance"]]
+print(xpos)
+print(beer)
+plt.xticks(ypos, BDATA["Product Name"].head())
+plt.ylabel("COGS")
+plt.title("Variance of Beer Products")
+plt.bar(ypos, xpos[0:5])
+plt.xaxis.get_major_ticks()[1::2]
